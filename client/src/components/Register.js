@@ -17,10 +17,10 @@ function Register() {
                   </a>
                 </p>
               </div>
-              <form className="mt-8 space-y-6 bg-white p-8 rounded-lg shadow-lg">
+              <form className="mt-8 space-y-6 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
                 <div className="rounded-md shadow-sm -space-y-px">
                   <div className="mb-5">
-                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-white">
                       Email address
                     </label>
                     <input
@@ -32,7 +32,7 @@ function Register() {
                     />
                   </div>
                   <div className="mb-5">
-                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">
+                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-white">
                       Password
                     </label>
                     <input
@@ -44,7 +44,7 @@ function Register() {
                     />
                   </div>
                   <div className="mb-5">
-                    <label htmlFor="repeat_password" className="block mb-2 text-sm font-medium text-gray-900">
+                    <label htmlFor="repeat_password" className="block mb-2 text-sm font-medium text-white">
                       Confirm Password
                     </label>
                     <input
@@ -57,7 +57,7 @@ function Register() {
                   </div>
                   <div className="flex space-x-2 mb-5">
                     <div className="w-1/2">
-                      <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900">
+                      <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-white">
                         First name
                       </label>
                       <input
@@ -69,7 +69,7 @@ function Register() {
                       />
                     </div>
                     <div className="w-1/2">
-                      <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-gray-900">
+                      <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-white">
                         Last name
                       </label>
                       <input
@@ -83,7 +83,7 @@ function Register() {
                   </div>
                   <div className="flex space-x-2 mb-5">
                     <div className="w-1/2">
-                      <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900">
+                      <label htmlFor="phone" className="block mb-2 text-sm font-medium text-white">
                         Phone number
                       </label>
                       <input
@@ -95,7 +95,7 @@ function Register() {
                       />
                     </div>
                     <div className="w-1/2">
-                      <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900">
+                      <label htmlFor="address" className="block mb-2 text-sm font-medium text-white">
                         Address
                       </label>
                       <input
@@ -115,8 +115,8 @@ function Register() {
                   >
                     Submit
                   </button>
-                  <p className="mt-3 text-black">
-                    Already registered? <a href="/login" className="text-blue-700 hover:underline">Login here</a>
+                  <p className="mt-3 text-white">
+                    Already registered? <a href="/login" className="text-blue-300 hover:underline">Login here</a>
                   </p>
                 </div>
               </form>
