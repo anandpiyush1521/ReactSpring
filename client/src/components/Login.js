@@ -1,6 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 
 function Login() {
+  const [input, setInput] = useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInput({
+      ...input,
+      [name]: value,
+    });
+  };
+
+  const [error, setError] = useState({});
+
+  const handlesubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = {};
+
+    if (!input.email.trim()) {
+      validationErrors.email = "Email is required";
+    } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input.email)) {
+      validationErrors.email = "Please enter a valid email";
+    }
+
+    if (!input.password.trim()) {
+      validationErrors.password = "Password is required";
+    } else if (
+      input.password.length < 10 &&
+      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(
+        input.password
+      )
+    ) {
+      validationErrors.password =
+        "Password must be at least 10 characters and include at least one uppercase letter, one lowercase letter, and one number";
+    }
+
+    setError(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      //write your login login here
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white ">
       <div className="flex items-center justify-center h-full py-12 px-4 sm:px-6 lg:px-8">
@@ -22,36 +65,52 @@ function Login() {
           </div>
           <form
             className="mt-8 space-y-6 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg"
+            onSubmit={handlesubmit}
           >
             <div className="rounded-md shadow-sm -space-y-px">
               <div className="mb-5">
                 <label
                   htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  className="block mb-2 text-sm font-medium text-white"
                 >
                   Email address
                 </label>
                 <input
-                  type="email"
+                  type="text"
+                  name="email"
+                  value={input.email}
+                  onChange={handleChange}
                   id="email"
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="example@gmail.com"
-                  required
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  placeholder="Email address"
                 />
+                {error.email && (
+                  <span className="text-red-500 text-sm italic">
+                    {error.email}
+                  </span>
+                )}
               </div>
               <div className="mb-5">
                 <label
                   htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  className="block mb-2 text-sm font-medium text-white"
                 >
                   Password
                 </label>
                 <input
                   type="password"
+                  name="password"
+                  value={input.password}
+                  onChange={handleChange}
                   id="password"
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  required
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  placeholder="******************"
                 />
+                {error.password && (
+                  <span className="text-red-500 text-sm italic">
+                    {error.password}
+                  </span>
+                )}
               </div>
             </div>
             <div className="flex items-center justify-between mb-5">
