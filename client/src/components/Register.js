@@ -103,7 +103,7 @@ function Register() {
                       className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                       placeholder="Email address"
                     />
-                    {error.email && <span className="text-red-400 text-sm italic">{error.email}</span>}
+                    {error.email && <span className="text-red-500 text-sm italic">{error.email}</span>}
                   </div>
                   <div className="mb-5">
                     <label htmlFor="password" className="block mb-2 text-sm font-medium text-white">
@@ -118,7 +118,7 @@ function Register() {
                       className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                       placeholder="******************"
                     />
-                    {error.password && <span className="text-red-500 text-xs italic">{error.password}</span>}
+                    {error.password && <span className="text-red-500 text-sm italic">{error.password}</span>}
                   </div>
                   <div className="mb-5">
                     <label htmlFor="repeat_password" className="block mb-2 text-sm font-medium text-white">
@@ -133,7 +133,7 @@ function Register() {
                       className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                       placeholder="******************"
                     />
-                    {error.repeat_password && <span className="text-red-500 text-xs italic">{error.repeat_password}</span>}
+                    {error.repeat_password && <span className="text-red-500 text-sm italic">{error.repeat_password}</span>}
                   </div>
                   <div className="flex space-x-2 mb-5">
                     <div className="w-1/2">
@@ -149,7 +149,7 @@ function Register() {
                         className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                         placeholder="First name"
                       />
-                      {error.first_name && <span className="text-red-500 text-xs italic">{error.first_name}</span>}
+                      {error.first_name && <span className="text-red-500 text-sm italic">{error.first_name}</span>}
                     </div>
                     <div className="w-1/2">
                       <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-white">
@@ -164,7 +164,7 @@ function Register() {
                         className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                         placeholder="Last name"
                       />
-                      {error.last_name && <span className="text-red-500 text-xs italic">{error.last_name}</span>}
+                      {error.last_name && <span className="text-red-500 text-sm italic">{error.last_name}</span>}
                     </div>
                   </div>
                   <div className="flex space-x-2 mb-5">
@@ -181,7 +181,7 @@ function Register() {
                         className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                         placeholder="123-456-7890"
                       />
-                      {error.phone && <span className="text-red-500 text-xs italic">{error.phone}</span>}
+                      {error.phone && <span className="text-red-500 text-sm italic">{error.phone}</span>}
                     </div>
                     <div className="w-1/2">
                       <label htmlFor="address" className="block mb-2 text-sm font-medium text-white">
@@ -196,7 +196,7 @@ function Register() {
                         className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                         placeholder="Enter your address"
                       />
-                      {error.address && <span className="text-red-500 text-xs italic">{error.address}</span>}
+                      {error.address && <span className="text-red-500 text-sm italic">{error.address}</span>}
                     </div>
                   </div>
                 </div>
