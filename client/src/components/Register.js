@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageTitle from './PageTitle';
+import axios from 'axios';
 
 
 function Register() {
@@ -24,8 +25,9 @@ function Register() {
     };
 
     const [error, setError] = useState({});
+    const[message, setMessage] = useState('');
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
       e.preventDefault();
 
       const validationErrors = {};
@@ -68,8 +70,24 @@ function Register() {
       setError(validationErrors);
 
       if(Object.keys(validationErrors).length === 0){
-        console.log("Form submitted succesfully", input);
-        navigate("/login");
+        // console.log("Form submitted succesfully", input);
+        // navigate("/login");
+        try {
+          const response = await axios.post('http://localhost:8080/api/users/register', input);
+          setMessage('Registration successful');
+          // Reset form
+          setInput({
+            email: '',
+            password: '',
+            repeat_password: '',
+            first_name: '',
+            last_name: '',
+            phone: '',
+            address: '',
+          });
+        } catch (err) {
+          setMessage('Registration failed: ' + err.response.data);
+        }
       }
 
     }
@@ -213,6 +231,11 @@ function Register() {
                     Already registered? <a href="/login" className="text-blue-300 hover:underline">Login here</a>
                   </p>
                 </div>
+                {message && (
+                  <div className="text-center text-green-500 text-xs italic">
+                    {message}
+                  </div>
+                )}
               </form>
             </div>
           </div>

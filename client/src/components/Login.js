@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import PageTitle from "./PageTitle";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -9,7 +12,6 @@ function Login() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setInput({
       ...input,
       [name]: value,
@@ -17,8 +19,9 @@ function Login() {
   };
 
   const [error, setError] = useState({});
+  const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validationError = {};
@@ -42,13 +45,30 @@ function Login() {
     setError(validationError);
 
     if (Object.keys(validationError).length === 0) {
-      //TODO => login logic
+      try {
+        const response = await axios.post("http://localhost:8080/api/users/login", input);
+        setMessage("Login Successful");
+
+        // Reset form
+        setInput({
+          email: "",
+          password: "",
+        });
+        // const {token} = response.data;
+        // localStorage.setItem("token", token);
+        
+        // Store user data in local storage or context
+        localStorage.setItem('user', JSON.stringify(response.data));
+        navigate("/checkLogin");
+      } catch (error) {
+        setMessage("Login Failed: " + (error.response?.data || error.message));
+      }
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <PageTitle title="Login" />
+      <PageTitle title="Login" />
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
@@ -83,7 +103,7 @@ function Login() {
                 name="email"
                 value={input.email}
                 onChange={handleChange}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-black rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="example@gmail.com"
                 required
               />
@@ -106,7 +126,7 @@ function Login() {
                 name="password"
                 value={input.password}
                 onChange={handleChange}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-Black rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 required
               />
               {error.password && (
@@ -148,6 +168,13 @@ function Login() {
               Sign in
             </button>
           </div>
+
+          {message && (
+            <div className="text-center text-green-500 text-xs italic">
+              {message}
+            </div>
+          )}
+
           <div className="flex items-center justify-center space-x-4 mt-4">
             <button
               type="button"
