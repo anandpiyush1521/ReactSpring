@@ -1,6 +1,7 @@
 package com.application.server.service.Impl;
 
 import com.application.server.entities.User;
+import com.application.server.helpers.PasswordBcrypt;
 import com.application.server.helpers.ResourceNotFoundException;
 import com.application.server.repositories.UserRepo;
 import com.application.server.service.UserService;
@@ -23,8 +24,11 @@ public class UserServiceImpl implements UserService {
         String userId = UUID.randomUUID().toString();
 
         user.setId(userId);
-        user.setPassword(user.getPassword());
-        user.setRepeat_password(user.getRepeat_password());
+
+        String hashPassword = PasswordBcrypt.hashPassword(user.getPassword());
+        user.setPassword(hashPassword);
+        user.setRepeat_password(hashPassword);
+
         user.setFirst_name(user.getFirst_name());
         user.setLast_name(user.getLast_name());
         user.setPhone(user.getPhone());
@@ -44,8 +48,10 @@ public class UserServiceImpl implements UserService {
     public Optional<User> updateUser(User user) {
         User user2 = userRepo.findById(user.getId()).orElseThrow(() ->new ResourceNotFoundException("User not found"));
         user2.setEmail(user.getEmail());
-        user2.setPassword(user.getPassword());
-        user2.setRepeat_password(user.getRepeat_password());
+
+        String hashPassword = PasswordBcrypt.hashPassword(user.getPassword());
+        user2.setPassword(hashPassword);
+        user2.setRepeat_password(hashPassword);
         user2.setFirst_name(user.getFirst_name());
         user2.setLast_name(user.getLast_name());
         user2.setPhone(user.getPhone());

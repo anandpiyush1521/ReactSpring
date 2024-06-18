@@ -1,6 +1,7 @@
 package com.application.server.controller;
 
 import com.application.server.entities.User;
+import com.application.server.helpers.PasswordBcrypt;
 import com.application.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,16 +28,16 @@ public class UserController {
     //login
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user){
-        boolean userExist = userService.isUserExistByEmailAndPassword(user.getEmail(), user.getPassword());
-        if(userExist){
-            Optional<User> loggedInUser = userService.getUserByEmail(user.getEmail());
-            if(loggedInUser.isPresent()){
-                return ResponseEntity.ok(loggedInUser.get());
+        Optional<User> optionalUser = userService.getUserByEmail(user.getEmail());
+        if(optionalUser.isPresent()){
+            User existingUser = optionalUser.get();
+            if(PasswordBcrypt.checkPassword(user.getPassword(), existingUser.getPassword())) {
+                return ResponseEntity.ok(existingUser);
             }else{
-                return ResponseEntity.badRequest().body("Invalid email or password");
+               return ResponseEntity.badRequest().body("Invalid password");
             }
         }else{
-            return ResponseEntity.badRequest().body("Invalid email or password");
+            return ResponseEntity.badRequest().body("User does not exist");
         }
     }
 }
