@@ -20,6 +20,7 @@ function Login() {
 
   const [error, setError] = useState({});
   const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,6 +49,7 @@ function Login() {
       try {
         const response = await axios.post("http://localhost:8080/api/users/login", input);
         setMessage("Login Successful");
+        setMessageType('success');
 
         // Reset form
         setInput({
@@ -62,6 +64,7 @@ function Login() {
         navigate("/checkLogin");
       } catch (error) {
         setMessage("Login Failed: " + (error.response?.data || error.message));
+        setMessageType('error');
       }
     }
   };
@@ -89,6 +92,11 @@ function Login() {
           className="mt-8 space-y-6 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg"
           onSubmit={handleSubmit}
         >
+        {message && (
+            <div className={`text-center text-md  mt-4 ${messageType === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+              {message}
+            </div>
+         )}
           <div className="rounded-md shadow-sm -space-y-px">
             <div className="mb-5">
               <label
@@ -168,12 +176,6 @@ function Login() {
               Sign in
             </button>
           </div>
-
-          {message && (
-            <div className="text-center text-green-500 text-xs italic">
-              {message}
-            </div>
-          )}
 
           <div className="flex items-center justify-center space-x-4 mt-4">
             <button

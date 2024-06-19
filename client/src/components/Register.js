@@ -26,6 +26,7 @@ function Register() {
 
     const [error, setError] = useState({});
     const[message, setMessage] = useState('');
+    const [messageType, setMessageType] = useState('');
 
     const handleRegister = async (e) => {
       e.preventDefault();
@@ -75,6 +76,8 @@ function Register() {
         try {
           const response = await axios.post('http://localhost:8080/api/users/register', input);
           setMessage('Registration successful');
+          setMessageType('success');
+
           // Reset form
           setInput({
             email: '',
@@ -87,6 +90,7 @@ function Register() {
           });
         } catch (err) {
           setMessage('Registration failed: ' + err.response.data);
+          setMessageType('error');
         }
       }
 
@@ -109,6 +113,11 @@ function Register() {
                 </p>
               </div>
               <form className="mt-8 space-y-6 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg" onSubmit={handleRegister}>
+              {message && (
+                  <div className={`text-center text-md  mt-4 ${messageType === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+                    {message}
+                  </div>
+              )}
                 <div className="rounded-md shadow-sm -space-y-px">
                   <div className="mb-5">
                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-white">
@@ -225,17 +234,12 @@ function Register() {
                     type="submit"
                     className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   >
-                    Submit
+                    Register
                   </button>
                   <p className="mt-3 text-white">
                     Already registered? <a href="/login" className="text-blue-300 hover:underline">Login here</a>
                   </p>
                 </div>
-                {message && (
-                  <div className="text-center text-green-500 text-xs italic">
-                    {message}
-                  </div>
-                )}
               </form>
             </div>
           </div>
