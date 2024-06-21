@@ -36,7 +36,7 @@ function Login() {
     if (!input.password.trim()) {
       validationError.password = "Password is required";
     } else if (
-      input.password.length < 10 &&
+      input.password.length < 10 ||
       !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(input.password)
     ) {
       validationError.password =
@@ -56,12 +56,11 @@ function Login() {
           email: "",
           password: "",
         });
-        // const {token} = response.data;
-        // localStorage.setItem("token", token);
-        
-        // Store user data in local storage or context
+
+        // Store user data in local storage
         localStorage.setItem('user', JSON.stringify(response.data));
-        navigate("/checkLogin");
+        navigate("/users/home");
+
       } catch (error) {
         setMessage("Login Failed: " + (error.response?.data || error.message));
         setMessageType('error');
@@ -134,7 +133,7 @@ function Login() {
                 name="password"
                 value={input.password}
                 onChange={handleChange}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-Black rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-black rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 required
               />
               {error.password && (

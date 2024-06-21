@@ -1,29 +1,29 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import PageTitle from '../components/PageTitle';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import PageTitle from "../../components/PageTitle";
 
-function CheckLoginDemo() {
+function UserHome() {
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = () => {
     // Clear user data from local storage
-    localStorage.removeItem('user');
-    
+    localStorage.removeItem("user");
+
     // Navigate to login page
-    navigate('/login');
+    navigate("/login");
   };
 
   if (!user) {
     // If no user is found, redirect to login page
-    navigate('/login');
+    navigate("/login");
     return null;
   }
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <PageTitle title={`Welcome , ${user.first_name}`} />
+      <PageTitle title={`Welcome , ${user.first_name}`} />
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
@@ -46,4 +46,4 @@ function CheckLoginDemo() {
   );
 }
 
-export default CheckLoginDemo;
+export default UserHome;

@@ -1,40 +1,40 @@
 package com.application.server.service.Impl;
 
+import com.application.server.entities.TempUser;
 import com.application.server.entities.User;
 import com.application.server.helpers.PasswordBcrypt;
 import com.application.server.helpers.ResourceNotFoundException;
 import com.application.server.repositories.UserRepo;
 import com.application.server.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private EmailService emailService;
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final ConcurrentHashMap<String, TempUser> tempUserStore = new ConcurrentHashMap<>();
+
     @Override
     public User saveUser(User user) {
         String userId = UUID.randomUUID().toString();
-
         user.setId(userId);
 
         String hashPassword = PasswordBcrypt.hashPassword(user.getPassword());
         user.setPassword(hashPassword);
         user.setRepeat_password(hashPassword);
 
-        user.setFirst_name(user.getFirst_name());
-        user.setLast_name(user.getLast_name());
-        user.setPhone(user.getPhone());
-        user.setAddress(user.getAddress());
-
-        logger.info("User saved successfully");
         return userRepo.save(user);
 
     }
@@ -85,5 +85,99 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserByEmail(String email) {
         return userRepo.findByEmail(email);
+    }
+
+    @Override
+    public User register(User user) {
+        User existingUser = userRepo.findByEmail(user.getEmail()).orElse(null);
+        if(existingUser!=null && existingUser.isEmailVerified()){
+            throw new RuntimeException("User already exist and verified");
+        }
+
+        TempUser tempUser = new TempUser(
+                UUID.randomUUID().toString(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getRepeat_password(),
+                user.getFirst_name(),
+                user.getLast_name(),
+                user.getPhone(),
+                user.getAddress(),
+                generateOtp(),
+                LocalDateTime.now()
+        );
+
+        //Store the temporary user object in the map
+        tempUserStore.put(tempUser.getEmail(), tempUser);
+
+        sendVerificationEmail(tempUser.getEmail(), tempUser.getOtp());
+
+        return User.builder()
+                .email(tempUser.getEmail())
+                .first_name(tempUser.getFirst_name())
+                .last_name(tempUser.getLast_name())
+                .phone(tempUser.getPhone())
+                .address(tempUser.getAddress())
+                .build();
+
+    }
+
+    @Override
+    public void verify(String email, String otp) {
+        TempUser tempUser = tempUserStore.get(email);
+
+        if(tempUser == null){
+            throw new RuntimeException("User Not Found");
+        }else if(!otp.equals(tempUser.getOtp())){
+            throw new RuntimeException("Invalid Otp");
+        }else if(tempUser.getOtpGeneratedTime().plusMinutes(2).isBefore(LocalDateTime.now())){
+            throw new RuntimeException("OTP expired");
+        }else{
+            String hashPassword = PasswordBcrypt.hashPassword(tempUser.getPassword());
+            User user = User.builder()
+                    .id(UUID.randomUUID().toString())
+                    .email(tempUser.getEmail())
+                    .password(hashPassword)
+                    .repeat_password(hashPassword)
+                    .first_name(tempUser.getFirst_name())
+                    .last_name(tempUser.getLast_name())
+                    .phone(tempUser.getPhone())
+                    .address(tempUser.getAddress())
+                    .otp(tempUser.getOtp())
+                    .isEmailVerified(true)
+                    .localDateTime(LocalDateTime.now())
+                    .build();
+
+            userRepo.save(user);
+
+            tempUserStore.remove(email);  // remove temporary user
+        }
+    }
+
+    @Override
+    public User login(String email, String password) {
+        Optional<User> optionalUser = userRepo.findByEmail(email);
+        if(optionalUser.isPresent()){
+            User existingUser = optionalUser.get();
+            if(PasswordBcrypt.checkPassword(password, existingUser.getPassword())) {
+                return existingUser;
+            }else{
+                throw new RuntimeException("Invalid Password");
+            }
+        }else{
+            throw new RuntimeException("User Does not exist");
+        }
+    }
+
+    private String generateOtp(){
+        Random random = new Random();
+        int otpValue = 100000 + random.nextInt(900000);
+        return String.valueOf(otpValue);
+    }
+
+    private void sendVerificationEmail(String email, String otp){
+        String subject = "Email Verification";
+        String body = "Your verification otp is: "+otp;
+        emailService.sendEmail(email, subject, body);
     }
 }

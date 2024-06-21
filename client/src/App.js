@@ -6,7 +6,7 @@ import Login from './components/Login';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
-import CheckLoginDemo from './pages/CheckLoginDemo';
+import UserHome from './pages/Users/UserHome';
 
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/checkLogin" element={<CheckLoginDemo />} />
+          <Route path="/users/home" element={<UserHome />} />
         </Routes>
       </BrowserRouter>
     </div>

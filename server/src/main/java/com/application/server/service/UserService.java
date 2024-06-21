@@ -14,4 +14,7 @@ public interface UserService {
     boolean isUserExistByEmailAndPassword(String email, String password);
 
     Optional<User> getUserByEmail(String email);
+    User register(User user);
+    void verify(String email, String otp);
+    User login(String email, String password);
 }
