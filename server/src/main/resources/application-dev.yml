@@ -14,10 +14,25 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: piyushanand@gmail.com
-    password: XXXX XXXX XXXX XXXX
+    password: xxxx xxxx xxxx xxxx
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false  # Serialize dates as ISO-8601 strings
+      FAIL_ON_EMPTY_BEANS: false  # Do not fail if JSON has empty beans
+    mapper:
+      ACCEPT_CASE_INSENSITIVE_PROPERTIES: true  # Accept case-insensitive properties
+      DEFAULT_VIEW_INCLUSION: true  # Include default views
+    default-property-inclusion: non_null  # Only include non-null properties in serialization
+    default-use-wrapper: true  # Wrap primitive values
+
+logging:
+  level:
+    org.springframework: INFO  # Set Spring Framework logging level to INFO
+    com.payerup.server: DEBUG  # Set your application's logging level to DEBUG

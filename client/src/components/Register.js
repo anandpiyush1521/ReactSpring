@@ -88,7 +88,7 @@ function Register() {
     if (Object.keys(validationErrors).length === 0) {
       try {
         setLoading(true); // Show loading spinner
-        await axios.post("http://localhost:8080/api/users/register", input);
+        await axios.post("http://localhost:8080/api/payerup/register", input);
         setMessage(
           "Registration successful. Please check your email for the OTP."
         );
@@ -131,7 +131,7 @@ function Register() {
 
   const handleVerifyOtp = async () => {
     try {
-      await axios.post("http://localhost:8080/api/users/verify", null, {
+      await axios.post("http://localhost:8080/api/payerup/verify", null, {
         params: {
           email: registeredEmail,
           otp: otp,

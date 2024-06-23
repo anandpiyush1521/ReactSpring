@@ -47,7 +47,7 @@ function Login() {
 
     if (Object.keys(validationError).length === 0) {
       try {
-        const response = await axios.post("http://localhost:8080/api/users/login", input);
+        const response = await axios.post("http://localhost:8080/api/payerup/login", input);
         setMessage("Login Successful");
         setMessageType('success');
 
@@ -160,7 +160,7 @@ function Login() {
             </div>
             <div className="text-sm">
               <a
-                href="#"
+                href="/fogot-password"
                 className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-500 dark:hover:text-blue-400"
               >
                 Forgot your password?

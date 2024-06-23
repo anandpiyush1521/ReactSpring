@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import UserHome from './pages/Users/UserHome';
+import ForgotPassword from './components/ForgotPassword';
 
 
 function App() {
@@ -20,6 +21,8 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/fogot-password" element={<ForgotPassword />} />
+
           <Route path="/users/home" element={<UserHome />} />
         </Routes>
       </BrowserRouter>

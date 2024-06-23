@@ -1,9 +1,8 @@
 package com.application.server.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.application.server.helpers.UserSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,6 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "users")
+@JsonSerialize(using = UserSerializer.class)
 public class User {
     @Id
     private String id;
@@ -34,5 +34,8 @@ public class User {
     private String otp;
     private boolean isEmailVerified;
     private LocalDateTime localDateTime;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ForgotPassword forgotPassword;
 
 }
