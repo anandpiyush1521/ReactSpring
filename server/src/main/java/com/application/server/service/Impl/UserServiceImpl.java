@@ -7,6 +7,9 @@ import com.application.server.helpers.ResourceNotFoundException;
 import com.application.server.repositories.UserRepo;
 import com.application.server.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +21,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
     @Autowired
     private EmailService emailService;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final ConcurrentHashMap<String, TempUser> tempUserStore = new ConcurrentHashMap<>();
 
@@ -112,6 +118,8 @@ public class UserServiceImpl implements UserService {
 
         sendVerificationEmail(tempUser.getEmail(), tempUser.getOtp());
 
+        logger.info("User registered successfully, please verify your email");
+
         return User.builder()
                 .email(tempUser.getEmail())
                 .first_name(tempUser.getFirst_name())
@@ -127,10 +135,13 @@ public class UserServiceImpl implements UserService {
         TempUser tempUser = tempUserStore.get(email);
 
         if(tempUser == null){
+            logger.warn("User Not Found");
             throw new RuntimeException("User Not Found");
         }else if(!otp.equals(tempUser.getOtp())){
+            logger.warn("Invalid Otp");
             throw new RuntimeException("Invalid Otp");
         }else if(tempUser.getOtpGeneratedTime().plusMinutes(2).isBefore(LocalDateTime.now())){
+            logger.warn("OTP expired");
             throw new RuntimeException("OTP expired");
         }else{
             String hashPassword = PasswordBcrypt.hashPassword(tempUser.getPassword());
@@ -148,6 +159,8 @@ public class UserServiceImpl implements UserService {
                     .localDateTime(LocalDateTime.now())
                     .build();
 
+            logger.info("User verified successfully");
+
             userRepo.save(user);
 
             tempUserStore.remove(email);  // remove temporary user
@@ -160,11 +173,14 @@ public class UserServiceImpl implements UserService {
         if(optionalUser.isPresent()){
             User existingUser = optionalUser.get();
             if(PasswordBcrypt.checkPassword(password, existingUser.getPassword())) {
+                logger.info("User logged in successfully");
                 return existingUser;
             }else{
+                logger.warn("Invalid Password");
                 throw new RuntimeException("Invalid Password");
             }
         }else{
+            logger.warn("User Does not exist");
             throw new RuntimeException("User Does not exist");
         }
     }
