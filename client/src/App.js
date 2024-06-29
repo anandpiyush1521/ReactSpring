@@ -8,6 +8,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import UserHome from './pages/Users/UserHome';
 import ForgotPassword from './components/ForgotPassword';
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 function App() {
@@ -23,7 +24,12 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/fogot-password" element={<ForgotPassword />} />
 
-          <Route path="/users/home" element={<UserHome />} />
+          <Route path="/user/home" element={
+            <ProtectedRoute>
+              <UserHome />
+            </ProtectedRoute>
+          } />
+
         </Routes>
       </BrowserRouter>
     </div>

@@ -59,7 +59,7 @@ function Login() {
 
         // Store user data in local storage
         localStorage.setItem('user', JSON.stringify(response.data));
-        navigate("/users/home");
+        navigate("/user/home");
 
       } catch (error) {
         setMessage("Login Failed: " + (error.response?.data || error.message));
