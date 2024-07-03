@@ -1,25 +1,33 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import PageTitle from "../../components/PageTitle";
+import CryptoJS from 'crypto-js';
+
+const SECRET_KEY = process.env.REACT_APP_CRYPTOJS_SECRET_KEY;
 
 function UserHome() {
   const navigate = useNavigate();
+  const encryptedUser = localStorage.getItem('user');
+  let user = null;
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  if (encryptedUser) {
+    try {
+      const bytes = CryptoJS.AES.decrypt(encryptedUser, SECRET_KEY);
+      const decryptedUser = bytes.toString(CryptoJS.enc.Utf8);
+      console.log("Decrypted user data:", decryptedUser); // Debugging line
+      user = JSON.parse(decryptedUser);
+    } catch (e) {
+      console.error("Decryption failed: ", e);
+      localStorage.removeItem('user');
+      navigate('/login');
+      return null;
+    }
+  }
 
   const handleLogout = () => {
-    // Clear user data from local storage
-    localStorage.removeItem("user");
-
-    // Navigate to login page
-    navigate("/login");
+    localStorage.removeItem('user');
+    navigate('/login');
   };
-
-  if (!user) {
-    // If no user is found, redirect to login page
-    navigate("/login");
-    return null;
-  }
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

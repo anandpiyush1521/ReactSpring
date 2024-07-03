@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import PageTitle from "./PageTitle";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import CryptoJS from 'crypto-js';
+
+const SECRET_KEY = process.env.REACT_APP_CRYPTOJS_SECRET_KEY;
+
+//console.log("Secret Key:", SECRET_KEY); //debugging line
 
 function Login() {
   const navigate = useNavigate();
@@ -51,6 +56,14 @@ function Login() {
         setMessage("Login Successful");
         setMessageType('success');
 
+        //console.log("API response data:", response.data); // Debugging line
+
+        const encryptedUser = CryptoJS.AES.encrypt(JSON.stringify(response.data), SECRET_KEY).toString();
+        
+        //console.log("Encrypted user data:", encryptedUser); // Debugging line
+
+        localStorage.setItem('user', encryptedUser);
+
         // Reset form
         setInput({
           email: "",
@@ -58,7 +71,7 @@ function Login() {
         });
 
         // Store user data in local storage
-        localStorage.setItem('user', JSON.stringify(response.data));
+        // localStorage.setItem('user', JSON.stringify(response.data));
         navigate("/user/home");
 
       } catch (error) {
