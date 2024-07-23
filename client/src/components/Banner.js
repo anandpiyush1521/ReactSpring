@@ -39,10 +39,10 @@ function Banner() {
             <span>
               New brand identity has been launched for the{' '}
               <a
-                href="https://flowbite.com"
+                href="/n"
                 className="inline font-medium text-yellow-200 underline decoration-yellow-300 hover:no-underline"
               >
-                Flowbite Library
+                <i>payerUps</i>
               </a>
             </span>
           </p>

@@ -176,7 +176,7 @@ function Register() {
   }, [timer]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-gray-900 text-white" style={{ backgroundImage: "url('https://cdn.pixabay.com/photo/2016/08/23/15/01/board-1614646_1280.jpg')" }}>
       <PageTitle title="Register" />
       <div className="flex items-center justify-center h-full py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
@@ -184,11 +184,11 @@ function Register() {
             <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
               Create an account
             </h2>
-            <p className="mt-2 text-center text-sm text-gray-400">
+            <p className="mt-2 text-center text-sm text-gray-100">
               Or
               <a
                 href="/login"
-                className="font-medium text-blue-200 hover:text-blue-300"
+                className="font-medium text-blue-400 hover:text-blue-300"
               >
                 {" "}
                 login to read Blogs
@@ -198,6 +198,7 @@ function Register() {
           <form
             className="mt-8 space-y-6 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg"
             onSubmit={handleRegister}
+            style={{ backgroundImage: "url('https://img.freepik.com/free-vector/flat-geometric-background_23-2148974368.jpg?size=626&ext=jpg&ga=GA1.1.58708776.1721575645&semt=ais_user')" }}
           >
             {message && (
               <div
@@ -212,7 +213,7 @@ function Register() {
               <div className="mb-5">
                 <label
                   htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700"
                 >
                   Email address
                 </label>
@@ -234,7 +235,7 @@ function Register() {
               <div className="mb-5">
                 <label
                   htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700"
                 >
                   Password
                 </label>
@@ -256,7 +257,7 @@ function Register() {
               <div className="mb-5">
                 <label
                   htmlFor="repeat_password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700"
                 >
                   Confirm Password
                 </label>
@@ -278,7 +279,7 @@ function Register() {
                 <div className="w-1/2">
                   <label
                     htmlFor="first_name"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700"
                   >
                     First name
                   </label>
@@ -300,7 +301,7 @@ function Register() {
                 <div className="w-1/2">
                   <label
                     htmlFor="last_name"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700"
                   >
                     Last name
                   </label>
@@ -323,7 +324,7 @@ function Register() {
               <div className="mb-5">
                 <label
                   htmlFor="phone"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700"
                 >
                   Phone Number
                 </label>
@@ -345,7 +346,7 @@ function Register() {
               <div className="mb-5">
                 <label
                   htmlFor="address"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700"
                 >
                   Address
                 </label>

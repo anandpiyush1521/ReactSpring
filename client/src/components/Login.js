@@ -103,6 +103,7 @@ function Login() {
         <form
           className="mt-8 space-y-6 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg"
           onSubmit={handleSubmit}
+          style={{ backgroundImage: "url('https://img.freepik.com/free-vector/flat-geometric-background_23-2148974368.jpg?size=626&ext=jpg&ga=GA1.1.58708776.1721575645&semt=ais_user')" }}
         >
         {message && (
             <div className={`text-center text-md  mt-4 ${messageType === 'success' ? 'text-green-500' : 'text-red-500'}`}>
@@ -113,7 +114,7 @@ function Login() {
             <div className="mb-5">
               <label
                 htmlFor="email"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700"
               >
                 Email address
               </label>
@@ -136,7 +137,7 @@ function Login() {
             <div className="mb-5">
               <label
                 htmlFor="password"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700"
               >
                 Password
               </label>
@@ -147,6 +148,7 @@ function Login() {
                 value={input.password}
                 onChange={handleChange}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-black rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder="************"
                 required
               />
               {error.password && (
@@ -166,7 +168,7 @@ function Login() {
               />
               <label
                 htmlFor="remember"
-                className="ml-2 block text-sm text-gray-900 dark:text-gray-300"
+                className="ml-2 block text-sm text-gray-900 dark:text-gray-600"
               >
                 Remember me
               </label>
