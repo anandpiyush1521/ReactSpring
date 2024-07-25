@@ -1,169 +1,200 @@
-import React, { useState } from 'react';
-import PageTitle from '../../components/PageTitle';
+import React, { useState } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 function UserAddBlog() {
   const [sections, setSections] = useState([
-    { type: 'title', content: '' },
-    { type: 'heading', content: '' },
-    { type: 'subheading', content: '' },
-    { type: 'text', content: '' },
+    { type: "title", content: "" },
+    { type: "text", content: "" },
+    { type: "image", content: "" },
   ]);
+  const [banner, setBanner] = useState(null);
 
-  const handleChange = (index, event) => {
+  const handleChange = (index, value) => {
     const newSections = sections.map((section, i) => {
       if (i === index) {
-        return { ...section, content: event.target.value };
+        return { ...section, content: value };
       }
       return section;
     });
     setSections(newSections);
   };
 
-  const addSection = (type) => {
-    setSections([...sections, { type, content: '' }]);
+  const handleBannerUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setBanner(URL.createObjectURL(file));
+    }
+  };
+
+  const handleImageUpload = (index, e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const newSections = sections.map((section, i) => {
+        if (i === index) {
+          return { ...section, content: URL.createObjectURL(file) };
+        }
+        return section;
+      });
+      setSections(newSections);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(sections);
-    // You can now send the sections to your backend
+    
+    const formData = {
+      banner,
+      sections: sections.map((section) => ({
+        type: section.type,
+        content: section.content,
+      })),
+    };
+
+    console.log(formData);
+    // Here, you can send formData to your backend using a POST request
+    // For example, using fetch or axios
+    // fetch('/api/blog', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(formData),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => console.log(data))
+    //   .catch((error) => console.error('Error:', error));
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <PageTitle title="Add Blog" />
-      <div className="max-w-2xl w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      <div className="relative px-8 py-4">
+        <div className="w-full h-96 bg-gray-300 flex items-center justify-center mb-8 rounded-lg shadow-md">
+          {banner ? (
+            <img
+              src={banner}
+              alt="Banner"
+              className="w-full h-full object-cover rounded-lg shadow-lg"
+            />
+          ) : (
+            <label
+              htmlFor="banner-upload"
+              className="flex flex-col items-center justify-center h-full w-full bg-blue-100 border-4 border-dashed border-blue-400 rounded-lg cursor-pointer hover:bg-blue-200 hover:border-blue-500 transition-colors"
+            >
+              <div className="flex flex-col items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-12 h-12 text-blue-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 15a4 4 0 00.88 2.62l4.72-4.71a2 2 0 112.83 2.83L6.83 20H21a2 2 0 002-2V6a2 2 0 00-2-2H8a2 2 0 00-2 2v3"
+                  />
+                </svg>
+                <span className="mt-2 text-base text-blue-600 font-semibold">
+                  Click to Upload Banner
+                </span>
+              </div>
+            </label>
+          )}
+          <input
+            type="file"
+            accept="image/*"
+            id="banner-upload"
+            hidden
+            onChange={handleBannerUpload}
+          />
+        </div>
+
+        <div className="container mx-auto p-8 md:max-w-5xl">
+          <h2 className="text-4xl font-bold text-gray-800 mb-6">
             Add a New Blog
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600 mb-8 text-lg">
             Share your thoughts and experiences with our community.
           </p>
-        </div>
-        <form onSubmit={handleSubmit} className="mt-8 space-y-6 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
-          {sections.map((section, index) => (
-            <div key={index} className="mb-4">
-              {section.type === 'title' && (
-                <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Title</label>
-                  <input
-                    type="text"
-                    value={section.content}
-                    onChange={(e) => handleChange(index, e)}
-                    className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="Blog Title"
-                  />
-                </div>
-              )}
-              {section.type === 'heading' && (
-                <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Heading</label>
-                  <input
-                    type="text"
-                    value={section.content}
-                    onChange={(e) => handleChange(index, e)}
-                    className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="Heading"
-                  />
-                </div>
-              )}
-              {section.type === 'subheading' && (
-                <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Subheading</label>
-                  <input
-                    type="text"
-                    value={section.content}
-                    onChange={(e) => handleChange(index, e)}
-                    className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="Subheading"
-                  />
-                </div>
-              )}
-              {section.type === 'text' && (
-                <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Content</label>
-                  <textarea
-                    value={section.content}
-                    onChange={(e) => handleChange(index, e)}
-                    rows="4"
-                    className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="Write your content here..."
-                  ></textarea>
-                </div>
-              )}
-              {section.type === 'image' && (
-                <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Image URL</label>
-                  <input
-                    type="text"
-                    value={section.content}
-                    onChange={(e) => handleChange(index, e)}
-                    className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="Image URL"
-                  />
-                </div>
-              )}
-              {section.type === 'link' && (
-                <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Link</label>
-                  <input
-                    type="text"
-                    value={section.content}
-                    onChange={(e) => handleChange(index, e)}
-                    className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="Link"
-                  />
-                </div>
-              )}
-            </div>
-          ))}
-          <div className="flex justify-between">
-            {/* <button
-              type="button"
-              onClick={() => addSection('heading')}
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
-            >
-              Add Heading
-            </button>
-            <button
-              type="button"
-              onClick={() => addSection('subheading')}
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
-            >
-              Add Subheading
-            </button>
-            <button
-              type="button"
-              onClick={() => addSection('text')}
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
-            >
-              Add Content
-            </button> */}
-            <button
-              type="button"
-              onClick={() => addSection('image')}
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
-            >
-              Add Image
-            </button>
-            <button
-              type="button"
-              onClick={() => addSection('link')}
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
-            >
-              Add Link
-            </button>
-          </div>
-          <div className="mt-8">
+
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white p-10 rounded-lg shadow-md space-y-8"
+          >
+            {sections.map((section, index) => (
+              <div key={index} className="space-y-6">
+                {section.type === "title" && (
+                  <div>
+                    <label
+                      htmlFor={`section-${index}`}
+                      className="block text-lg font-medium text-gray-700"
+                    >
+                      Title
+                    </label>
+                    <input
+                      type="text"
+                      id={`section-${index}`}
+                      name={`section-${index}-title`}
+                      value={section.content}
+                      onChange={(e) => handleChange(index, e.target.value)}
+                      className="w-full px-4 py-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-lg"
+                      placeholder="Enter Blog Title"
+                    />
+                  </div>
+                )}
+                {section.type === "text" && (
+                  <div>
+                    <label
+                      htmlFor={`section-${index}`}
+                      className="block text-lg font-medium text-gray-700"
+                    >
+                      Content
+                    </label>
+                    <ReactQuill
+                      value={section.content}
+                      onChange={(value) => handleChange(index, value)}
+                      className="bg-white h-80 text-lg"
+                      placeholder="Write your content here..."
+                    />
+                  </div>
+                )}
+                {section.type === "image" && (
+                  <div>
+                    <label
+                      htmlFor={`section-${index}`}
+                      className="block text-lg font-medium text-gray-700"
+                    >
+                      Image Upload
+                    </label>
+                    <input
+                      type="file"
+                      id={`section-${index}`}
+                      name={`section-${index}-image`}
+                      accept="image/*"
+                      onChange={(e) => handleImageUpload(index, e)}
+                      className="w-full px-4 py-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-lg"
+                    />
+                    {section.content && (
+                      <img
+                        src={section.content}
+                        alt="Preview"
+                        className="mt-4 w-full h-auto rounded-lg shadow-md"
+                      />
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
             <button
               type="submit"
-              className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
+              className="w-full px-6 py-4 text-lg font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-400"
             >
               Publish Post
             </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );
