@@ -44,7 +44,7 @@ public class ForgotPasswordController {
         forgotPassword.setUser(userEntity);
         forgotPasswordRepo.save(forgotPassword);
 
-        emailService.sendEmail(user.getEmail(), "OTP for password reset", "Your OTP is: " + otp);
+        emailService.sendEmail(user.getEmail(), "PayerUp: OTP for password reset !!!", "Your OTP is: " + otp);
 
         return ResponseEntity.ok("OTP sent successfully to Your Email");
     }
