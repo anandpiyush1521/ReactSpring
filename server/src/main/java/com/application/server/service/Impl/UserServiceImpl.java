@@ -2,6 +2,7 @@ package com.application.server.service.Impl;
 
 import com.application.server.entities.TempUser;
 import com.application.server.entities.User;
+import com.application.server.helpers.EmailTemplate;
 import com.application.server.helpers.PasswordBcrypt;
 import com.application.server.helpers.ResourceNotFoundException;
 import com.application.server.repositories.UserRepo;
@@ -116,7 +117,7 @@ public class UserServiceImpl implements UserService {
         //Store the temporary user object in the map
         tempUserStore.put(tempUser.getEmail(), tempUser);
 
-        sendVerificationEmail(tempUser.getEmail(), tempUser.getOtp());
+        sendVerificationEmail(tempUser.getFirst_name(), tempUser.getEmail(), tempUser.getOtp());
 
         logger.info("User registered successfully, please verify your email");
 
@@ -191,9 +192,9 @@ public class UserServiceImpl implements UserService {
         return String.valueOf(otpValue);
     }
 
-    private void sendVerificationEmail(String email, String otp){
+    private void sendVerificationEmail(String firstname, String email, String otp){
         String subject = "Email Verification: PayerUp!!!";
-        String body = "Your verification otp is: "+otp;
+        String body = EmailTemplate.getEmailTemplateForVerifyUser(firstname, otp);
         emailService.sendEmail(email, subject, body);
     }
 }

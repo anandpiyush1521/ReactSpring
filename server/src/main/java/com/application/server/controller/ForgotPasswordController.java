@@ -2,6 +2,7 @@ package com.application.server.controller;
 
 import com.application.server.entities.ForgotPassword;
 import com.application.server.entities.User;
+import com.application.server.helpers.EmailTemplate;
 import com.application.server.helpers.PasswordBcrypt;
 import com.application.server.repositories.ForgotPasswordRepo;
 import com.application.server.repositories.UserRepo;
@@ -44,7 +45,10 @@ public class ForgotPasswordController {
         forgotPassword.setUser(userEntity);
         forgotPasswordRepo.save(forgotPassword);
 
-        emailService.sendEmail(user.getEmail(), "PayerUp: OTP for password reset !!!", "Your OTP is: " + otp);
+        String emailSubject = "Email Verification: PayerUp!!!";
+        String emailBody = EmailTemplate.getEmailTemplateForPasswordRecovery(userEntity.getFirst_name(), otp);
+
+        emailService.sendEmail(user.getEmail(), emailSubject, emailBody);
 
         return ResponseEntity.ok("OTP sent successfully to Your Email");
     }
