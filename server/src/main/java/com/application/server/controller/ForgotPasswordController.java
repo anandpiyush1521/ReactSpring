@@ -45,7 +45,7 @@ public class ForgotPasswordController {
         forgotPassword.setUser(userEntity);
         forgotPasswordRepo.save(forgotPassword);
 
-        String emailSubject = "Email Verification: PayerUp!!!";
+        String emailSubject = "Reset Password: VicharStream!!!";
         String emailBody = EmailTemplate.getEmailTemplateForPasswordRecovery(userEntity.getFirst_name(), otp);
 
         emailService.sendEmail(user.getEmail(), emailSubject, emailBody);

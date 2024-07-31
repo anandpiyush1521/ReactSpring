@@ -26,6 +26,11 @@ public class EmailTemplate {
                 "    padding: 10px 0;" +
                 "    border-bottom: 1px solid #eeeeee;" +
                 "}" +
+                ".header img {" +
+                "    max-width: 100%;" +
+                "    height: auto;" +
+                "    border-radius: 10px 10px 0 0;" +
+                "}" +
                 ".header h2 {" +
                 "    margin: 0;" +
                 "    color: #333333;" +
@@ -69,9 +74,10 @@ public class EmailTemplate {
                 "<body>" +
                 "<div class=\"container\">" +
                 "    <div class=\"header\">" +
-                "        <h2>Hello " + firstName + ",</h2>" +
+                "        <img src=\"https://res.cloudinary.com/dth5ysuhs/image/upload/v1722400999/pay5gt5flvhcy1w5ndne.png\" alt=\"Banner\">" +
                 "    </div>" +
                 "    <div class=\"content\">" +
+                "        <h2>Hello " + firstName + ",</h2>" +
                 "        <p>Welcome to <i>PayerUp</i>.</p>" +
                 "        <p>Here's the code that you need to use to activate your account:</p>" +
                 "        <div class=\"otp\">" + otp + "</div>" +
@@ -84,6 +90,7 @@ public class EmailTemplate {
                 "</body>" +
                 "</html>";
     }
+    
 
     public static String getEmailTemplateForPasswordRecovery(String firstName, String otp) {
         return "<html>" +
@@ -109,6 +116,11 @@ public class EmailTemplate {
                 "    padding: 10px 0;" +
                 "    border-bottom: 1px solid #eeeeee;" +
                 "}" +
+                ".header img {" +
+                "    max-width: 100%;" +
+                "    height: auto;" +
+                "    border-radius: 10px 10px 0 0;" +
+                "}" +
                 ".header h2 {" +
                 "    margin: 0;" +
                 "    color: #333333;" +
@@ -152,9 +164,10 @@ public class EmailTemplate {
                 "<body>" +
                 "<div class=\"container\">" +
                 "    <div class=\"header\">" +
-                "        <h2>Hello " + firstName + ",</h2>" +
+                "        <img src=\"https://res.cloudinary.com/dth5ysuhs/image/upload/v1722400999/pay5gt5flvhcy1w5ndne.png\" alt=\"Banner\">" +
                 "    </div>" +
                 "    <div class=\"content\">" +
+                "        <h2>Hello " + firstName + ",</h2>" +
                 "        <p>Welcome to <i>PayerUp</i>.</p>" +
                 "        <p>Here's the code that you need to use to reset your password: </p>" +
                 "        <div class=\"otp\">" + otp + "</div>" +
@@ -166,5 +179,5 @@ public class EmailTemplate {
                 "</div>" +
                 "</body>" +
                 "</html>";
-    }
+    }    
 }

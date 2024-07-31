@@ -193,7 +193,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private void sendVerificationEmail(String firstname, String email, String otp){
-        String subject = "Email Verification: PayerUp!!!";
+        String subject = "Email Verification: VicharStream!!!";
         String body = EmailTemplate.getEmailTemplateForVerifyUser(firstname, otp);
         emailService.sendEmail(email, subject, body);
     }
