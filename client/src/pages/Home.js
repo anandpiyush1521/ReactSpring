@@ -10,10 +10,10 @@ function Home() {
       <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('https://cdn.pixabay.com/photo/2016/08/23/15/01/board-1614646_1280.jpg')" }}>
         <div className="w-full max-w-4xl p-8 bg-white bg-opacity-70 rounded-lg shadow-lg">
           <h3 className="text-3xl font-bold text-center text-gray-900 mb-6">
-            Welcome to PayerUps
+            Welcome to Vichar<u>Stream</u>
           </h3>
           <p className="text-lg text-center text-gray-700 mb-6">
-            Your one-stop solution for managing your payments effortlessly.
+            Your one-stop solution for managing your blogs effortlessly.
             Explore our features and get started with your journey today!
           </p>
           <div className="flex justify-center">

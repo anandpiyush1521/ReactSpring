@@ -6,13 +6,13 @@ function Footer() {
       <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="md:flex md:justify-between">
           <div className="mb-8 md:mb-0">
-            <a href="https://flowbite.com/" className="flex items-center">
-            
-              <span className="self-center text-3xl font-bold text-white">
-                <i>
-                  <u>PayerUps</u>
-                </i>
-              </span>
+            <a href="/" className="flex items-center">
+            <img
+              src="https://res.cloudinary.com/dth5ysuhs/image/upload/v1722406188/hbuiv9gdo9rbkhty2jkh.png"
+              className="h-12"
+              style={{ width: '250px', height: 'auto' }}
+              alt="PayerUps Logo"
+            />
             </a>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -95,7 +95,7 @@ function Footer() {
         </div>
         <div className="mt-8 border-t border-gray-700 pt-8">
           <p className="text-center text-sm text-gray-400">
-            &copy; 2024 PayerUps. All rights reserved.
+            &copy; 2024 Vichar<u>Stream</u>. All rights reserved.
           </p>
         </div>
       </div>

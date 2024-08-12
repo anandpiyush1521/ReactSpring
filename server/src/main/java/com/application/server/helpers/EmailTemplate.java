@@ -78,13 +78,13 @@ public class EmailTemplate {
                 "    </div>" +
                 "    <div class=\"content\">" +
                 "        <h2>Hello " + firstName + ",</h2>" +
-                "        <p>Welcome to <i>PayerUp</i>.</p>" +
+                "        <p>Welcome to Vichar<u>Stream</u>.</p>" +
                 "        <p>Here's the code that you need to use to activate your account:</p>" +
                 "        <div class=\"otp\">" + otp + "</div>" +
-                "        <p>Thank you,<br>PayerUp team</p>" +
+                "        <p>Thank you,<br>Vichar<u>Stream</u> team</p>" +
                 "    </div>" +
                 "    <div class=\"footer\">" +
-                "        <p>&copy; 2024 PayerUp. All rights reserved.</p>" +
+                "        <p>&copy; 2024 Vichar<u>Stream</u>. All rights reserved.</p>" +
                 "    </div>" +
                 "</div>" +
                 "</body>" +
@@ -168,13 +168,13 @@ public class EmailTemplate {
                 "    </div>" +
                 "    <div class=\"content\">" +
                 "        <h2>Hello " + firstName + ",</h2>" +
-                "        <p>Welcome to <i>PayerUp</i>.</p>" +
+                "        <p>Welcome to Vichar<u>Stream</u>.</p>" +
                 "        <p>Here's the code that you need to use to reset your password: </p>" +
                 "        <div class=\"otp\">" + otp + "</div>" +
-                "        <p>Thank you,<br>PayerUp team</p>" +
+                "        <p>Thank you,<br>Vichar<u>Stream</u> team</p>" +
                 "    </div>" +
                 "    <div class=\"footer\">" +
-                "        <p>&copy; 2024 PayerUp. All rights reserved.</p>" +
+                "        <p>&copy; 2024 Vichar<u>Stream</u>. All rights reserved.</p>" +
                 "    </div>" +
                 "</div>" +
                 "</body>" +

@@ -43,15 +43,11 @@ function Navbar() {
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-5">
           <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8"
-              alt="Flowbite Logo"
+              src="https://res.cloudinary.com/dth5ysuhs/image/upload/v1722406188/hbuiv9gdo9rbkhty2jkh.png"
+              className="h-12"
+              style={{ width: '150px', height: 'auto' }}
+              alt="PayerUps Logo"
             />
-            <span className="self-center text-3xl font-semibold whitespace-nowrap dark:text-white">
-              <i>
-                <u>PayerUps</u>
-              </i>
-            </span>
           </a>
           <button
             onClick={toggleMenu}
@@ -81,7 +77,7 @@ function Navbar() {
             className={`w-full md:block md:w-auto ${isOpen ? '' : 'hidden'}`}
             id="navbar-default"
           >
-            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-800 dark:border-gray-700">
+            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-transparent dark:md:bg-transparent dark:border-gray-700">
               {isLoggedIn ? (
                 <>
                   <li>
