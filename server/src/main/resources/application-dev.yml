@@ -1,20 +1,24 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/reactspring
-    username: root
-    password:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:postgresql://localhost:5432/vicharstream
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
   mail:
     host: smtp.gmail.com
     port: 587
-    username: piyushanand2580@gmail.com
-    password: wygm iabx gose nobj
+    username: piyushanand@gmail.com
+    password: xxxx xxxx xxxx xxxx
     properties:
       mail:
         smtp:
