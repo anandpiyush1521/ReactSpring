@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/vicharstream
     username: postgres
-    password: root
+    password: user123
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -17,8 +17,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: piyushanand@gmail.com
-    password: xxxx xxxx xxxx xxxx
+    username: xxxxxxxxxxxxxxxxxxxxxxxxxxx
+    password: xxxx xxxx xxxx xxxxx
     properties:
       mail:
         smtp:
