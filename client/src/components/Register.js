@@ -51,10 +51,8 @@ function Register() {
     if (!input.password.trim()) {
       validationErrors.password = "Password is required";
     } else if (
-      input.password.length < 10 &&
-      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(
-        input.password
-      )
+      input.password.length < 10 ||
+      !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(input.password)
     ) {
       validationErrors.password =
         "Password must be at least 10 characters and include at least one uppercase letter, one lowercase letter, and one number";

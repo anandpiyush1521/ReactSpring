@@ -82,7 +82,7 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8" style={{ backgroundImage: "url('https://cdn.pixabay.com/photo/2016/08/23/15/01/board-1614646_1280.jpg')" }}>
       <PageTitle title="Login" />
       <div className="max-w-md w-full space-y-8">
         <div>
