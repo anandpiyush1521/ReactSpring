@@ -16,6 +16,7 @@ public class TempUser {
 
     private String id;
     private String email;
+    private String username;
     private String password;
     private String repeat_password;
     private String first_name;

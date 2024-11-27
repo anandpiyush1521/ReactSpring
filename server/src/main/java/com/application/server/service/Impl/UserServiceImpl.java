@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
     public Optional<User> updateUser(User user) {
         User user2 = userRepo.findById(user.getId()).orElseThrow(() ->new ResourceNotFoundException("User not found"));
         user2.setEmail(user.getEmail());
+        user2.setUsername(user.getUsername());
 
         String hashPassword = PasswordBcrypt.hashPassword(user.getPassword());
         user2.setPassword(hashPassword);
@@ -96,14 +97,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User register(User user) {
-        User existingUser = userRepo.findByEmail(user.getEmail()).orElse(null);
-        if(existingUser!=null && existingUser.isEmailVerified()){
+        User existingUserByEmail = userRepo.findByEmail(user.getEmail()).orElse(null);
+        if(existingUserByEmail!=null && existingUserByEmail.isEmailVerified()){
             throw new RuntimeException("User already exist and verified");
+        }
+
+        User existingByUsername = userRepo.findByUsername(user.getUsername()).orElse(null);
+        if(existingByUsername!=null){
+            throw new RuntimeException("Username already exist");
         }
 
         TempUser tempUser = new TempUser(
                 UUID.randomUUID().toString(),
                 user.getEmail(),
+                user.getUsername(),
                 user.getPassword(),
                 user.getRepeat_password(),
                 user.getFirst_name(),
@@ -123,12 +130,12 @@ public class UserServiceImpl implements UserService {
 
         return User.builder()
                 .email(tempUser.getEmail())
+                .username(tempUser.getUsername())
                 .first_name(tempUser.getFirst_name())
                 .last_name(tempUser.getLast_name())
                 .phone(tempUser.getPhone())
                 .address(tempUser.getAddress())
                 .build();
-
     }
 
     @Override
@@ -149,6 +156,7 @@ public class UserServiceImpl implements UserService {
             User user = User.builder()
                     .id(UUID.randomUUID().toString())
                     .email(tempUser.getEmail())
+                    .username(tempUser.getUsername())
                     .password(hashPassword)
                     .repeat_password(hashPassword)
                     .first_name(tempUser.getFirst_name())

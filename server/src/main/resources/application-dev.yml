@@ -33,7 +33,7 @@ spring:
     mapper:
       ACCEPT_CASE_INSENSITIVE_PROPERTIES: true  # Accept case-insensitive properties
       DEFAULT_VIEW_INCLUSION: true  # Include default views
-    default-property-inclusion: non_null  # Only include non-null properties in serialization
+    default-property-inclusion: NON_NULL  # Only include non-null properties in serialization
     default-use-wrapper: true  # Wrap primitive values
 
 logging:

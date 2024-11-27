@@ -8,6 +8,7 @@ function Register() {
 
   const [input, setInput] = useState({
     email: "",
+    username: "",
     password: "",
     repeat_password: "",
     first_name: "",
@@ -46,6 +47,10 @@ function Register() {
       validationErrors.email = "Email is required";
     } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input.email)) {
       validationErrors.email = "Please enter a valid email";
+    }
+
+    if(!input.username.trim()){
+      validationErrors.username = "Username is Required";
     }
 
     if (!input.password.trim()) {
@@ -108,6 +113,7 @@ function Register() {
         // Reset form
         setInput({
           email: "",
+          username: "",
           password: "",
           repeat_password: "",
           first_name: "",
@@ -155,6 +161,7 @@ function Register() {
     setTimer(0); // Set timer to 0 to instantly cancel countdown
     setInput({
       email: "",
+      username: "",
       password: "",
       repeat_password: "",
       first_name: "",
@@ -230,6 +237,30 @@ function Register() {
                   </span>
                 )}
               </div>
+
+              <div className="mb-5">
+                <label
+                  htmlFor="username"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700"
+                >
+                  Username
+                </label>
+                <input
+                  type="text"
+                  name="username"
+                  value={input.username}
+                  onChange={handleChange}
+                  id="email"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  placeholder="Email address"
+                />
+                {error.username && (
+                  <span className="text-red-500 text-sm italic">
+                    {error.username}
+                  </span>
+                )}
+              </div>
+
               <div className="mb-5">
                 <label
                   htmlFor="password"
