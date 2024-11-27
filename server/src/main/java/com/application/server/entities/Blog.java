@@ -15,16 +15,20 @@ import java.util.List;
 @Table(name = "blogs")
 public class Blog {
     @Id
-    private String blog_id;
+    private String id;
 
-    @Column(nullable = false)
+    @Column
     private String title;
 
-    @Column(nullable = false)
+    @Column(columnDefinition="TEXT") 
     private String content;
 
-    @Column(nullable = false)
-    private String bannerUrl;
+    @Column
+    private String bannerPath;
+
+    @Column
+    private String imagePath;
+
 
     @ElementCollection
     @CollectionTable(name = "blog_sections", joinColumns = @JoinColumn(name = "blog_id"))

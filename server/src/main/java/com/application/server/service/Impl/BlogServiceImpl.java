@@ -19,7 +19,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public Blog createBlog(Blog blog) {
         String userId = UUID.randomUUID().toString();
-        blog.setBlog_id(userId);
+        blog.setId(userId);
         return blogRepo.save(blog);
     }
 
@@ -30,7 +30,8 @@ public class BlogServiceImpl implements BlogService {
             Blog existingBlog = existingBlogOptional.get();
             existingBlog.setTitle(blog.getTitle());
             existingBlog.setContent(blog.getContent());
-            existingBlog.setBannerUrl(blog.getBannerUrl());
+            existingBlog.setBannerPath(blog.getBannerPath());
+            existingBlog.setImagePath(blog.getImagePath());
             existingBlog.setSections(blog.getSections());
             existingBlog.setUser(blog.getUser());
             existingBlog.setUpdatedAt(blog.getUpdatedAt());

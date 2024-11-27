@@ -29,6 +29,107 @@ VicharStream is a web application that provides user registration, OTP verificat
 
 The backend is built using Spring Boot and provides RESTful APIs for user management, OTP verification, and email notifications.
 
+### 3-Layer Security System
+
+This project implements a **3-layer security system** to ensure secure and validated user registration and authentication. It leverages temporary data storage, OTP verification, and secure data handling mechanisms for robust protection.
+
+<p align="center">
+  <img src="public/demo/ThreeLayerRegistration.png" width="1000" alt="ThreeLayer Image">
+</p>
+
+---
+
+### Layer 1: Temporary Data Storage and Validation
+
+#### Temporary User Storage
+- User data is temporarily stored in a `ConcurrentHashMap` as `TempUser`.
+- Prevents database pollution by keeping unverified users out of the main database.
+
+#### Basic Validations
+- Checks for duplicate emails and usernames.
+- Ensures all fields are valid and non-empty.
+
+---
+
+### Layer 2: OTP Verification
+
+#### One-Time Password (OTP)
+- A **randomly generated OTP** is sent to the user's email.
+- The OTP is **valid for 2 minutes**.
+- Ensures the provided email belongs to the user.
+
+#### Temporary Session Management
+- Unverified user data is stored temporarily in a `ConcurrentHashMap`.
+- No interaction with the database occurs until OTP verification succeeds.
+
+---
+
+### Layer 3: Secure Data Handling and Authentication
+
+#### Password Security
+- Passwords are hashed using **bcrypt** before storage.
+- Protects against password leaks, even in case of database compromise.
+
+#### Email Verification Status
+- The `isEmailVerified` flag ensures only verified users can access their accounts.
+- Guards sensitive operations against unverified accounts.
+
+#### Database Storage
+- Upon successful OTP verification:
+  - Validated user data is securely saved in the database.
+  - Hashed passwords and necessary flags are stored.
+
+---
+
+### Features
+
+1. **Temporary Storage for Validation**:  
+   Users are temporarily stored in memory until verification, saving database resources.
+   
+2. **OTP-Based Verification**:  
+   A two-minute, time-sensitive OTP ensures identity validation.
+
+3. **Secure Password Management**:  
+   Passwords are hashed using bcrypt for maximum security.
+
+4. **Verified Access Only**:  
+   Prevents unverified users from accessing system resources.
+
+---
+
+### How It Works
+
+1. **User Registration**:  
+   - User provides email, username, and password.
+   - Data is stored temporarily in `ConcurrentHashMap`.
+
+2. **Send OTP**:  
+   - An OTP is sent to the user’s email.
+   - The user enters the OTP to verify their email.
+
+3. **Verification**:  
+   - If the OTP is correct and within the time limit, the user is moved to the main database.
+   - Passwords are hashed before storage.
+
+4. **Post-Verification**:  
+   - Verified users can log in and access the application.
+
+---
+
+### Potential Enhancements
+
+- **Add CAPTCHA**: Prevent automated registrations.
+- **Multi-Factor Authentication (MFA)**: Add an additional security layer during login.
+- **Rate Limiting**: Prevent brute-force OTP attempts.
+- **Email Verification Links**: Provide an alternative to OTP verification.
+
+
+
+This 3-layer security system ensures a robust, reliable, and scalable user authentication workflow.
+
+---
+
+
 ### Key Files and Directories
 
 - [`server/src/main/java/com/application/server/controller/ForgotPasswordController.java`](server/src/main/java/com/application/server/controller/ForgotPasswordController.java): Handles password recovery requests.
@@ -39,7 +140,7 @@ The backend is built using Spring Boot and provides RESTful APIs for user manage
 
 ### User Registration and OTP Verification
 <p align="center">
-  <img src="public/demo/authentication-system.png" width="1000" alt="Decentralized Exchange">
+  <img src="public/demo/authentication-system.png" width="700" alt="system">
 </p>
 
 
@@ -56,6 +157,12 @@ The frontend is built using React and styled with Tailwind CSS. It provides a us
 - [`client/src/index.css`](client/src/index.css): Tailwind CSS configuration.
 
 ## Getting Started
+
+### Blog Add Page
+<p align="center">
+  <img src="public/demo/AddBlog.jpeg" width="600" alt="BlogAdd">
+</p>
+
 
 ### Prerequisites
 

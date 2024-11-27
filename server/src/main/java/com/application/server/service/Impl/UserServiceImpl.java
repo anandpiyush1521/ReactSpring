@@ -3,6 +3,7 @@ package com.application.server.service.Impl;
 import com.application.server.entities.TempUser;
 import com.application.server.entities.User;
 import com.application.server.helpers.EmailTemplate;
+import com.application.server.helpers.GenerateOtp;
 import com.application.server.helpers.PasswordBcrypt;
 import com.application.server.helpers.ResourceNotFoundException;
 import com.application.server.repositories.UserRepo;
@@ -117,7 +118,7 @@ public class UserServiceImpl implements UserService {
                 user.getLast_name(),
                 user.getPhone(),
                 user.getAddress(),
-                generateOtp(),
+                GenerateOtp.generateOtp(),
                 LocalDateTime.now()
         );
 
@@ -194,11 +195,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private String generateOtp(){
-        Random random = new Random();
-        int otpValue = 100000 + random.nextInt(900000);
-        return String.valueOf(otpValue);
-    }
+    // private String generateOtp(){
+    //     Random random = new Random();
+    //     int otpValue = 100000 + random.nextInt(900000);
+    //     return String.valueOf(otpValue);
+    // }
 
     private void sendVerificationEmail(String firstname, String email, String otp){
         String subject = "Email Verification: VicharStream!!!";
