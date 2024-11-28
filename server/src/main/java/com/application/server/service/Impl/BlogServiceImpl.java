@@ -1,9 +1,13 @@
 package com.application.server.service.Impl;
 
 import com.application.server.entities.Blog;
+import com.application.server.entities.User;
 import com.application.server.repositories.BlogRepo;
+import com.application.server.repositories.UserRepo;
 import com.application.server.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +20,27 @@ public class BlogServiceImpl implements BlogService {
     @Autowired
     private BlogRepo blogRepo;
 
+    @Autowired
+    private UserRepo userRepo;
+
     @Override
     public Blog createBlog(Blog blog) {
-        String userId = UUID.randomUUID().toString();
-        blog.setId(userId);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else if (principal instanceof String && principal.equals("anonymousUser")) {
+            throw new RuntimeException("User is not authenticated");
+        } else {
+            username = principal.toString();
+        }
+
+        User user = userRepo.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username " + username));
+
+        blog.setUser(user);
+        blog.setId(UUID.randomUUID().toString());
         return blogRepo.save(blog);
     }
 
@@ -58,8 +79,6 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public List<Blog> getBlogsByUserId(String userId) {
-        return blogRepo.findAll().stream()
-                .filter(blog -> blog.getUser().getId().equals(userId))
-                .toList();
+        return blogRepo.findByUserId(userId);
     }
 }
