@@ -34,3 +34,6 @@ build/
 
 # Ignore application profiles
 /src/main/resources/application-dev.yml
+
+# Ignore Uploads folder
+uploads/
