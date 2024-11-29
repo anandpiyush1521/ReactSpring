@@ -11,4 +11,5 @@ public interface BlogService {
     Optional<Blog> getBlogById(String id);
     List<Blog> getAllBlogs();
     List<Blog> getBlogsByUserId(String userId);
+    List<Blog> searchBlogsBySectionContent(String sectionContent);
 }

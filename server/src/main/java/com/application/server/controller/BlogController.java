@@ -1,13 +1,12 @@
 package com.application.server.controller;
 
+import com.application.server.entities.Blog;
+import com.application.server.helpers.FileUploader;
+import com.application.server.service.BlogService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,10 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.application.server.entities.Blog;
-import com.application.server.service.BlogService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/api/blogs")
@@ -52,8 +47,8 @@ public class BlogController {
         List<String> sections = objectMapper.readValue(sectionsJson, List.class);
 
         // Save files
-        String bannerFilePath = saveFile(bannerPath);
-        String imageFilePath = saveFile(imagePath);
+        String bannerFilePath = FileUploader.saveFile(bannerPath);
+        String imageFilePath = FileUploader.saveFile(imagePath);
 
         // Create a new Blog object
         Blog blog = new Blog();
@@ -66,23 +61,6 @@ public class BlogController {
         // Save the blog using the service
         Blog createdBlog = blogService.createBlog(blog);
         return ResponseEntity.ok(createdBlog);
-    }
-
-    private String saveFile(MultipartFile file) throws IOException {
-        // Define upload directory
-        String uploadDir = "server/uploads/";
-        Path uploadPath = Paths.get(uploadDir);
-
-        // Ensure the directory exists
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-
-        // Save file to the directory
-        String fileName = file.getOriginalFilename();
-        Path filePath = uploadPath.resolve(fileName);
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-        return filePath.toString();
     }
 
     @PutMapping("/{id}")
@@ -113,6 +91,12 @@ public class BlogController {
     public ResponseEntity<List<Blog>> getBlogsByUserId(@PathVariable String userId) {
         List<Blog> blogs = blogService.getBlogsByUserId(userId);
         return ResponseEntity.ok(blogs);
+    }
+
+    //http://localhost:8080/api/blogs/search?sectionContent=dfs
+    @GetMapping("/search") 
+    public List<Blog> searchBlogs(@RequestParam String sectionContent) {
+        return blogService.searchBlogsBySectionContent(sectionContent);
     }
 }
 
