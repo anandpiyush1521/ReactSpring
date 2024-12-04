@@ -1,5 +1,6 @@
 package com.application.server.service;
 
+import com.application.server.entities.AuthenticationRequest;
 import com.application.server.entities.User;
 
 import java.util.Optional;
@@ -17,4 +18,5 @@ public interface UserService {
     User register(User user);
     void verify(String email, String otp);
     User login(String email, String password);
+    User loginSecurity(AuthenticationRequest authenticationRequest);
 }

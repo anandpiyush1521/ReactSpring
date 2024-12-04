@@ -1,5 +1,7 @@
 package com.application.server.service.Impl;
 
+import com.application.server.entities.AuthenticationRequest;
+import com.application.server.entities.AuthenticationRespJwt;
 import com.application.server.entities.TempUser;
 import com.application.server.entities.User;
 import com.application.server.helpers.EmailTemplate;
@@ -8,6 +10,8 @@ import com.application.server.helpers.PasswordBcrypt;
 import com.application.server.helpers.ResourceNotFoundException;
 import com.application.server.repositories.UserRepo;
 import com.application.server.service.UserService;
+import com.application.server.util.JwtUtil;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -16,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
@@ -29,6 +35,9 @@ public class UserServiceImpl implements UserService {
     private UserRepo userRepo;
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -205,5 +214,26 @@ public class UserServiceImpl implements UserService {
         String subject = "Email Verification: VicharStream!!!";
         String body = EmailTemplate.getEmailTemplateForVerifyUser(firstname, otp);
         emailService.sendEmail(email, subject, body);
+    }
+
+    @Override
+    public User loginSecurity(AuthenticationRequest authenticationRequest) {
+        // Check if the provided username is an email or regular username
+        Optional<User> optionalUser = userRepo.findByUsername(authenticationRequest.getUsername())
+                                        .or(() -> userRepo.findByEmail(authenticationRequest.getUsername()));
+
+        if (optionalUser != null) {
+            User existingUser = optionalUser.get();
+            if (PasswordBcrypt.checkPassword(authenticationRequest.getPassword(), existingUser.getPassword())) {
+                logger.info("User logged in successfully");
+                return existingUser;
+            } else {
+                logger.warn("Invalid Password");
+                throw new RuntimeException("Invalid Password");
+            }
+        } else {
+            logger.warn("User does not exist");
+            throw new RuntimeException("User does not exist");
+        }
     }
 }

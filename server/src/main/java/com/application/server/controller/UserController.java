@@ -1,7 +1,9 @@
 package com.application.server.controller;
 
 import com.application.server.entities.AuthenticationRequest;
+import com.application.server.entities.AuthenticationRespJwt;
 import com.application.server.entities.AuthenticationResponse;
+import com.application.server.entities.AuthenticationResponseWithDetails;
 import com.application.server.entities.User;
 import com.application.server.helpers.PasswordBcrypt;
 import com.application.server.service.UserService;
@@ -15,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RequestMapping("/api/payerup")
@@ -65,15 +68,47 @@ public class UserController {
     //     }
     // }
 
+    // @PostMapping("/login")
+    // public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    //     authenticationManager.authenticate(
+    //             new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
+    //     );
+
+    //     final UserDetails userDetails = customUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+    //     final String jwt = jwtUtil.generateToken(userDetails.getUsername());
+
+    //     return ResponseEntity.ok(new AuthenticationResponse(jwt));
+    // }
+
+    // @PostMapping("/login")
+    // public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest){
+    //     try {
+    //         User loggedInUser = userService.loginSecurity(authenticationRequest);
+    //         final UserDetails userDetails = customUserDetailsService.loadUserByUsername(loggedInUser.getUsername());
+    //         final String jwt = jwtUtil.generateToken(userDetails.getUsername());
+
+    //         AuthenticationResponse authenticationResponse = new AuthenticationResponse(jwt, loggedInUser.getUsername(), loggedInUser.getEmail(), loggedInUser.getFirst_name(), loggedInUser.getAddress());
+
+    //         return ResponseEntity.ok(authenticationResponse);
+    //     } catch (Exception e) {
+    //         return ResponseEntity.badRequest().body(e.getMessage());
+    //     }
+    // }
+
     @PostMapping("/login")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
-        );
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest){
+        try {
+            User loggedInUser = userService.loginSecurity(authenticationRequest);
+            final UserDetails userDetails = customUserDetailsService.loadUserByUsername(loggedInUser.getUsername());
+        
+            final String jwt = jwtUtil.generateToken(userDetails.getUsername(), loggedInUser.getEmail(), loggedInUser.getFirst_name(), loggedInUser.getAddress());    
 
-        final UserDetails userDetails = customUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        final String jwt = jwtUtil.generateToken(userDetails.getUsername());
+            AuthenticationRespJwt authenticationRespJwt = new AuthenticationRespJwt(jwt);
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+            return ResponseEntity.ok(authenticationRespJwt);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
+
 }
