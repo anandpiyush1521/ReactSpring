@@ -1,7 +1,7 @@
 package com.application.server.service.Impl;
 
-import com.application.server.entities.AuthenticationRequest;
-import com.application.server.entities.AuthenticationRespJwt;
+import com.application.server.dto.request.AuthenticationRequest;
+import com.application.server.dto.response.AuthenticationRespJwt;
 import com.application.server.entities.TempUser;
 import com.application.server.entities.User;
 import com.application.server.helpers.EmailTemplate;

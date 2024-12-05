@@ -1,5 +1,6 @@
-package com.application.server.entities;
+package com.application.server.dto.response;
 
+import com.application.server.entities.User;
 import lombok.Getter;
 import lombok.Setter;
 

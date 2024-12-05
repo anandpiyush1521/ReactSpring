@@ -1,4 +1,4 @@
-package com.application.server.entities;
+package com.application.server.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.application.server.service;
 
-import com.application.server.entities.AuthenticationRequest;
+import com.application.server.dto.request.AuthenticationRequest;
 import com.application.server.entities.User;
 
 import java.util.Optional;

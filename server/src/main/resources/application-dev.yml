@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/vicharstream
     username: postgres
-    password: root
+    password: user123
     driver-class-name: org.postgresql.Driver
 
   jpa:

@@ -1,9 +1,9 @@
 package com.application.server.controller;
 
-import com.application.server.entities.AuthenticationRequest;
-import com.application.server.entities.AuthenticationRespJwt;
-import com.application.server.entities.AuthenticationResponse;
-import com.application.server.entities.AuthenticationResponseWithDetails;
+import com.application.server.dto.request.AuthenticationRequest;
+import com.application.server.dto.response.AuthenticationRespJwt;
+import com.application.server.dto.response.AuthenticationResponse;
+import com.application.server.dto.response.AuthenticationResponseWithDetails;
 import com.application.server.entities.User;
 import com.application.server.helpers.PasswordBcrypt;
 import com.application.server.service.UserService;
